@@ -1,0 +1,8 @@
+training/
+validation/
+testing/
+
+__pycache__/
+*.pyc
+.vscode/
+.idea/
