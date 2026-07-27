@@ -69,10 +69,14 @@ class CNN(nn.Module):                 # Same CNN architecture used during traini
 # Load Model
 # ----------------------------------
 
-model = CNN()
-model.load_state_dict(torch.load("mood_model.pth", map_location=torch.device("cpu")))
-model.eval()
+@st.cache_resource
+def load_model():
+    model = CNN()
+    model.load_state_dict(torch.load("mood_model.pth", map_location="cpu"))
+    model.eval()
+    return model
 
+model = load_model()
 
 
 
@@ -102,7 +106,7 @@ def get_youtube_videos(query):
     
     url = f"https://www.youtube.com/results?search_query=bollywood {query} song"
 
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
 
     video_ids = re.findall(
         r"watch\?v=(\S{11})",
