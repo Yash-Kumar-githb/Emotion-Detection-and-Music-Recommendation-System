@@ -81,11 +81,7 @@ model = load_model()
 
 
 
-import psutil
-import os
 
-process = psutil.Process(os.getpid())
-st.write(f"Memory: {process.memory_info().rss / 1024 / 1024:.2f} MB")
 
 # ----------------------------------
 # Class Names
@@ -176,8 +172,7 @@ if uploaded_file is not None:
 
     image = Image.open(uploaded_file).convert("RGB")              # Open uploaded image using Pillow.[PIL]
 
-    process = psutil.Process(os.getpid())
-    st.write(f"Memory: {process.memory_info().rss / 1024 / 1024:.2f} MB")
+
 
     st.image(image, caption="Uploaded Image", width=250)            #displays the uploaded image on the webpage.
 
@@ -190,10 +185,7 @@ if uploaded_file is not None:
 
             output = model(img)
 
-
-            process = psutil.Process(os.getpid())
-            st.write(f"Memory: {process.memory_info().rss / 1024 / 1024:.2f} MB")
-            _, prediction = torch.max(output, 1)
+            _, prediction = torch.max(output, 1)    ## axis =1
             prediction.item()
 
             emotion = classes[prediction]
